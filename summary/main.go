@@ -6,20 +6,18 @@ import (
 	"net/http"
 
 	"github.com/prometheus/client_golang/prometheus"
-
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
 var (
-	Count = prometheus.NewHistogram(prometheus.HistogramOpts{
-		Name:    "total",
-		Help:    "total",
-		Buckets: prometheus.LinearBuckets(20, 5, 5), //初始20 每個區間差距5 共有5個區間
+	Count = prometheus.NewSummary(prometheus.SummaryOpts{
+		Name:       "",
+		Help:       "",
+		Objectives: map[float64]float64{},
 	})
 )
 
 func main() {
-
 	r := http.NewServeMux()
 	r.Handle("/metrics", promhttp.Handler())
 	r.HandleFunc("/", index)
@@ -29,5 +27,5 @@ func main() {
 }
 
 func index(w http.ResponseWriter, r *http.Request) {
-	Count.Observe(float64(rand.Int31n(50))) //每次觀察的值是0-50
+	Count.Observe(float64(rand.Int31n(50)))
 }
