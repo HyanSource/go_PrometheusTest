@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/prometheus/client_golang/prometheus"
@@ -26,8 +25,6 @@ func main() {
 	r.HandleFunc("/Add", Add)
 
 	http.ListenAndServe(":8080", r)
-
-	fmt.Println("OK")
 }
 
 func Inc(w http.ResponseWriter, r *http.Request) {
